@@ -1,33 +1,33 @@
-# PlantUML zu Draw.io Beispiele
+# PlantUML to Draw.io Examples
 
-Dieses Verzeichnis enthält Beispiel-PlantUML-Diagramme, die mit dem plantuml2drawio-Konverter in das Draw.io-Format konvertiert werden können.
+This directory contains sample PlantUML diagrams that can be converted to the Draw.io format using the plantuml2drawio converter.
 
-## Aktivitätsdiagramme
+## Activity diagrams
 
-Das Verzeichnis `activity_examples` enthält Beispiele für PlantUML-Aktivitätsdiagramme:
+The `activity_examples` directory includes examples of PlantUML activity diagrams:
 
-- `simple_activity.puml`: Ein einfaches Aktivitätsdiagramm mit Verzweigungen und Flusssteuerung
+- `simple_activity.puml`: A simple activity diagram with branches and flow control
 
-## Verwendung der Beispiele
+## Using the examples
 
-Sie können diese Beispiele wie folgt mit dem Konverter verwenden:
+You can process these examples with the converter as follows:
 
-### Mit der Kommandozeile:
+### From the command line:
 
 ```bash
-# Verwenden des CLI-Tools
+# Using the CLI tool
 ./p2d-cli --input examples/activity_examples/simple_activity.puml --output examples/activity_examples/simple_activity.drawio
 ```
 
-### Mit der grafischen Benutzeroberfläche:
+### With the graphical user interface:
 
-1. Starten Sie die Anwendung mit `./p2d-gui`
-2. Öffnen Sie eine der Beispiel-Dateien über die GUI
-3. Konvertieren Sie das Diagramm mit der Schaltfläche "Konvertieren"
-4. Speichern Sie das Ergebnis
+1. Start the application with `./p2d-gui`.
+2. Open one of the example files via the GUI.
+3. Convert the diagram using the "Convert" button.
+4. Save the result.
 
-## Eigene Beispiele hinzufügen
+## Add your own examples
 
-Fügen Sie Ihre eigenen Beispiele in die entsprechenden Unterverzeichnisse ein und verwenden Sie sie als Referenz für Ihre eigenen Diagramme.
+Place your own examples in the appropriate subdirectories and use them as references for your diagrams.
 
-Für weitere Diagrammtypen können neue Unterverzeichnisse erstellt werden, sobald weitere Diagrammtypen vom Konverter unterstützt werden.
+For additional diagram types, create new subdirectories once the converter supports those formats.

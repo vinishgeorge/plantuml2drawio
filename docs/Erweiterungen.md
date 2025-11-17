@@ -1,41 +1,41 @@
-# Erweiterungsmöglichkeiten
+# Extension Possibilities
 
-Dieses Dokument beschreibt potenzielle Erweiterungen und Verbesserungen für den PlantUML zu Draw.io Konverter.
+This document describes potential extensions and improvements for the PlantUML to Draw.io converter.
 
-## Unterstützung weiterer Diagrammtypen
+## Support for additional diagram types
 
-Die aktuelle Version des Konverters unterstützt ausschließlich Aktivitätsdiagramme. Die modulare Architektur des Systems ermöglicht jedoch die einfache Erweiterung um weitere Diagrammtypen.
+The current version of the converter supports only activity diagrams. The modular architecture makes it straightforward to add further diagram types.
 
-### Prioritäten für neue Diagrammtypen
+### Priorities for new diagram types
 
-Basierend auf ihrer Verbreitung und Komplexität wird folgende Reihenfolge für die Implementierung empfohlen:
+Based on popularity and complexity, the recommended implementation order is:
 
-1. **Sequenzdiagramme**
-   - Hohe Verbreitung
-   - Klare, lineare Struktur
-   - Gut definierte Elemente (Teilnehmer, Nachrichten, Aktivierungen)
+1. **Sequence diagrams**
+   - Widely used
+   - Clear, linear structure
+   - Well-defined elements (participants, messages, activations)
 
-2. **Klassendiagramme**
-   - Fundamentaler Diagrammtyp für objektorientierte Modellierung
-   - Überschaubare Anzahl von Element-Typen
-   - Anspruchsvolleres Layout
+2. **Class diagrams**
+   - Fundamental for object-oriented modeling
+   - Manageable number of element types
+   - More demanding layout
 
-3. **Komponentendiagramme**
-   - Mittlere Komplexität
-   - Übersichtliche Struktur
-   - Begrenzte Anzahl von Elementtypen
+3. **Component diagrams**
+   - Medium complexity
+   - Clear structure
+   - Limited number of element types
 
-4. **Zustandsdiagramme**
-   - Ähnlichkeiten zu Aktivitätsdiagrammen
-   - Mittlere Komplexität
+4. **State diagrams**
+   - Similarities to activity diagrams
+   - Medium complexity
 
-5. **ER-Diagramme**
-   - Spezifisch für Datenmodellierung
-   - Komplexere Beziehungen
+5. **ER diagrams**
+   - Focused on data modeling
+   - More complex relationships
 
-### Implementierungsansatz für neue Diagrammtypen
+### Implementation approach for new diagram types
 
-Für jeden neuen Diagrammtyp sollte ein spezialisiertes Modul erstellt werden:
+Create a specialized module for each new diagram type:
 
 ```
 modules/
@@ -46,50 +46,50 @@ modules/
   └── ...
 ```
 
-Jedes Modul sollte folgende Funktionen implementieren:
+Each module should provide the following functions:
 
-1. **Validierungsfunktion**
+1. **Validation function**
    ```python
-   def is_valid_<type>_diagram(plantuml_content: str) -> bool:
-       # Überprüfung auf gültiges <Typ>-Diagramm
-       # ...
-   ```
+def is_valid_<type>_diagram(plantuml_content: str) -> bool:
+    # Validate a <type> diagram
+    # ...
+```
 
-2. **Parsing-Funktion**
+2. **Parsing function**
    ```python
-   def parse_<type>_diagram(plantuml_content: str) -> Tuple[List[Node], List[Edge]]:
-       # Analyse des PlantUML-Codes
-       # Erstellung interner Datenstrukturen
-       # ...
-   ```
+def parse_<type>_diagram(plantuml_content: str) -> Tuple[List[Node], List[Edge]]:
+    # Analyze the PlantUML code
+    # Build internal data structures
+    # ...
+```
 
-3. **Layout-Funktion**
+3. **Layout function**
    ```python
-   def layout_<type>_diagram(nodes: List[Node], edges: List[Edge], **kwargs) -> None:
-       # Berechnung eines optimalen Layouts
-       # ...
-   ```
+def layout_<type>_diagram(nodes: List[Node], edges: List[Edge], **kwargs) -> None:
+    # Calculate an optimal layout
+    # ...
+```
 
-4. **XML-Generierungsfunktion**
+4. **XML generation function**
    ```python
-   def create_<type>_drawio_xml(nodes: List[Node], edges: List[Edge]) -> str:
-       # Erstellung von XML im Draw.io-Format
-       # ...
-   ```
+def create_<type>_drawio_xml(nodes: List[Node], edges: List[Edge]) -> str:
+    # Create XML in Draw.io format
+    # ...
+```
 
-Anschließend muss das Kernmodul `src/plantuml2drawio/core.py` aktualisiert werden, um das neue Modul zu importieren und für den entsprechenden Diagrammtyp zu verwenden.
+Then update the core module `src/plantuml2drawio/core.py` to import and use the new module for the appropriate diagram type.
 
-## Verbesserung der Benutzeroberfläche
+## Improve the user interface
 
-Die grafische Benutzeroberfläche kann in verschiedenen Bereichen erweitert werden:
+The GUI can be expanded in several areas:
 
-### Echtzeit-Vorschau
+### Real-time preview
 
-Eine Split-View, die den PlantUML-Code und eine Vorschau des generierten Diagramms zeigt:
+A split view that shows the PlantUML code and a preview of the generated diagram:
 
 ```
 +------------------------+-----------------------+
-| PlantUML-Code          | Draw.io-Vorschau      |
+| PlantUML code          | Draw.io preview       |
 |                        |                       |
 | @startuml              |      +--------+       |
 | start                  |      | Start  |       |
@@ -102,128 +102,128 @@ Eine Split-View, die den PlantUML-Code und eine Vorschau des generierten Diagram
 +------------------------+-----------------------+
 ```
 
-### Erweitertes Syntax-Highlighting
+### Enhanced syntax highlighting
 
-Verbesserung des Syntax-Highlightings mit zusätzlichen Funktionen:
+Improve syntax highlighting with extra features:
 
-- Auto-Vervollständigung für PlantUML-Schlüsselwörter
-- Fehlermarkierung für ungültigen Code
-- Automatische Einrückung
-- Zeilennummern
+- Auto-complete PlantUML keywords
+- Highlight invalid code
+- Automatic indentation
+- Line numbers
 
-### Diagrammtyp-Auswahl
+### Diagram type selection
 
-Dropdown-Menü zur Auswahl des Diagrammtyps, sobald mehrere Typen unterstützt werden:
+Dropdown to choose the diagram type once multiple types are supported:
 
 ```
 +-------------------------+
-| Diagrammtyp:  [Aktivität v]
+| Diagram type:  [Activity v]
 +-------------------------+
-| [ ] Automatische Erkennung
+| [ ] Automatic detection
 +-------------------------+
 ```
 
-### Export-Optionen
+### Export options
 
-Erweiterte Optionen für den Export:
+Additional export choices:
 
-- Verschiedene Draw.io-Stile
-- Direkter Export als PNG/SVG/PDF
-- Exportgrößen und Skalierung
-- Farbpaletten
+- Different Draw.io styles
+- Direct export as PNG/SVG/PDF
+- Export sizes and scaling
+- Color palettes
 
-## Technische Erweiterungen
+## Technical extensions
 
-### Verbesserte Layouts
+### Better layouts
 
-- Optimierte Layout-Algorithmen für komplexe Diagramme
-- Unterstützung für benutzerdefinierte Layout-Parameter
-- Automatische Größenanpassung von Elementen basierend auf Textlänge
+- Optimized layout algorithms for complex diagrams
+- Support for custom layout parameters
+- Automatic resizing of elements based on text length
 
-### Integration mit externen Tools
+### Integration with external tools
 
-- PlantUML-Server-Integration für die Vorschau
-- Export zu anderen Diagramm-Tools (nicht nur Draw.io)
-- VCS-Integration (Git, SVN)
+- PlantUML server integration for previews
+- Export to other diagram tools (beyond Draw.io)
+- VCS integration (Git, SVN)
 
-### Umgekehrte Konvertierung
+### Reverse conversion
 
-Implementierung der umgekehrten Konvertierung von Draw.io zu PlantUML:
+Implement the reverse conversion from Draw.io to PlantUML:
 
 ```
-Draw.io XML -> Interne Repräsentation -> PlantUML-Code
+Draw.io XML -> Internal representation -> PlantUML code
 ```
 
-Dies würde einen vollständigen Round-Trip-Workflow ermöglichen.
+This would enable a complete round-trip workflow.
 
-### Kommandozeilen-Erweiterungen
+### Command-line extensions
 
-- Batch-Verarbeitung mehrerer Dateien
-- Konfigurationsdateien für wiederholte Konvertierungen
-- Integration in Build-Prozesse
+- Batch processing of multiple files
+- Configuration files for repeated conversions
+- Integration into build processes
 
-## Infrastruktur-Verbesserungen
+## Infrastructure improvements
 
-### Automatisierte Tests
+### Automated tests
 
-- Erweiterung der Testabdeckung
-- Integrationstests für den vollständigen Konvertierungsprozess
-- Property-based Testing für robuste Validierung
+- Broaden test coverage
+- Integration tests for the full conversion flow
+- Property-based testing for robust validation
 
-### Dokumentation
+### Documentation
 
-- Vollständige API-Dokumentation
-- Benutzerhandbuch mit Beispielen
-- Beitragsleitfaden für Open-Source-Entwickler
+- Full API documentation
+- User guide with examples
+- Contribution guide for open-source developers
 
-### Verteilung
+### Distribution
 
-- Pakete für verschiedene Paketmanager (pip, conda)
-- Eigenständige Installer für verschiedene Betriebssysteme
-- Docker-Container für containerisierte Ausführung
+- Packages for different package managers (pip, conda)
+- Standalone installers for various operating systems
+- Docker container for containerized execution
 
-## Umsetzungsstrategie
+## Implementation strategy
 
-### Kurzfristige Prioritäten
+### Short-term priorities
 
-1. Unterstützung für Sequenzdiagramme
-2. Verbesserte Fehlerbehandlung und Benutzerrückmeldung
-3. Optimierung der Layoutalgorithmen für Aktivitätsdiagramme
+1. Support for sequence diagrams
+2. Improved error handling and user feedback
+3. Optimize layout algorithms for activity diagrams
 
-### Mittelfristige Ziele
+### Mid-term goals
 
-1. Unterstützung für Klassendiagramme und Komponentendiagramme
-2. Implementierung der Echtzeit-Vorschau
-3. Erweitertes Syntax-Highlighting
+1. Support for class and component diagrams
+2. Implement the real-time preview
+3. Enhanced syntax highlighting
 
-### Langfristige Vision
+### Long-term vision
 
-1. Vollständige Unterstützung aller PlantUML-Diagrammtypen
-2. Umgekehrte Konvertierung (Draw.io zu PlantUML)
-3. Erweiterte Integration in Entwicklungsumgebungen
+1. Full support for all PlantUML diagram types
+2. Reverse conversion (Draw.io to PlantUML)
+3. Deeper integration with development environments
 
-## Hinzufügen eines neuen Diagrammtyps
+## Adding a new diagram type
 
-Um einen neuen Diagrammtyp zu unterstützen, sind folgende Schritte erforderlich:
+To support a new diagram type, complete the following steps:
 
-1. **Erkennung des Diagrammtyps**
-   - Erweitern Sie die Diagrammtyperkennung in `src/plantuml2drawio/core.py`
-   - Fügen Sie spezifische Erkennungsmuster für den neuen Diagrammtyp hinzu
+1. **Detect the diagram type**
+   - Extend diagram type detection in `src/plantuml2drawio/core.py`
+   - Add detection patterns specific to the new type
 
-2. **Parsing und Konvertierung**
-   - Erstellen Sie einen neuen Prozessor in `src/processors/`
-   - Implementieren Sie die Parsing-Logik für den neuen Diagrammtyp
-   - Entwickeln Sie die Konvertierungslogik für Draw.io-XML
+2. **Parsing and conversion**
+   - Create a new processor in `src/processors/`
+   - Implement the parsing logic for the new diagram type
+   - Develop the conversion logic for Draw.io XML
 
-3. **Implementieren der erforderlichen Funktionen**:
-   - `is_valid_diagram(content)`: Prüft, ob es sich um ein gültiges Diagramm des neuen Typs handelt
-   - `parse_diagram(content)`: Extrahiert Knoten und Kanten aus dem PlantUML-Code
-   - `layout_diagram(nodes, edges)`: Berechnet das Layout für den neuen Diagrammtyp
-   - `create_drawio_xml(nodes, edges)`: Erzeugt das Draw.io-XML für den neuen Diagrammtyp
-   - `create_json(nodes, edges)`: Erstellt eine JSON-Repräsentation des Diagramms
+3. **Implement the required functions:**
+   - `is_valid_diagram(content)`: checks whether the content is a valid diagram of the new type
+   - `parse_diagram(content)`: extracts nodes and edges from the PlantUML code
+   - `layout_diagram(nodes, edges)`: calculates the layout for the new diagram type
+   - `create_drawio_xml(nodes, edges)`: generates Draw.io XML for the new diagram type
+   - `create_json(nodes, edges)`: creates a JSON representation of the diagram
 
-4. **Aktualisieren der Konfiguration**:
-   - Fügen Sie den neuen Diagrammtyp in `src/plantuml2drawio/config.py` hinzu:
+4. **Update configuration:**
+   - Add the new diagram type in `src/plantuml2drawio/config.py`:
      ```python
      AVAILABLE_PROCESSORS = {
          DIAGRAM_TYPE_ACTIVITY: "plantuml2drawio.processors.activity_processor.ActivityDiagramProcessor",
@@ -231,6 +231,6 @@ Um einen neuen Diagrammtyp zu unterstützen, sind folgende Schritte erforderlich
      }
      ```
 
-5. **Testen des neuen Diagrammtyps**:
-   - Erstellen Sie Testfälle in `tests/`
-   - Fügen Sie Beispiele in `examples/` hinzu
+5. **Test the new diagram type:**
+   - Create test cases in `tests/`
+   - Add examples in `examples/`

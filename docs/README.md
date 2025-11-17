@@ -1,211 +1,198 @@
-# PlantUML to Draw.io Konverter - Dokumentation
+# PlantUML to Draw.io Converter - Documentation
 
-Diese Dokumentation beschreibt die Struktur, Funktionsweise und Verwendung des PlantUML to Draw.io Konverters.
+This documentation outlines the structure, behavior, and usage of the PlantUML to Draw.io converter.
 
-## Projektorganisation
+## Project Organization
 
-Das Projekt ist wie folgt strukturiert:
+The project is structured as follows:
 
 ```
 plantuml2drawio/
-├── README.md                    # Hauptdokumentation
-├── LICENSE                      # Lizenzinformationen
-├── requirements.txt             # Python-Abhängigkeiten
-├── setup.py                     # Setupskript für die Installation
-├── .gitignore                   # Git-Ignore-Datei
-├── plantuml2drawio-cli          # Kommandozeileneinstiegspunkt
-├── plantuml2drawio-gui          # GUI-Einstiegspunkt
-├── src/                         # Hauptquellcode
-│   ├── plantuml2drawio/         # Kernpaket
-│   │   ├── core.py              # Kernfunktionalität
-│   │   ├── app.py               # GUI-Anwendung
-│   │   └── config.py            # Konfigurationseinstellungen
-│   └── processors/              # Diagramm-Prozessoren
-│       ├── base_processor.py    # Basisklasse für Prozessoren
-│       └── activity_processor.py # Aktivitätsdiagramm-Prozessor
+├── README.md                    # Main documentation
+├── LICENSE                      # License information
+├── requirements.txt             # Python dependencies
+├── setup.py                     # Installation script
+├── .gitignore                   # Git ignore rules
+├── plantuml2drawio-cli          # Command-line entry point
+├── plantuml2drawio-gui          # GUI entry point
+├── src/                         # Main source code
+│   ├── plantuml2drawio/         # Core package
+│   │   ├── core.py              # Core functionality
+│   │   ├── app.py               # GUI application
+│   │   └── config.py            # Configuration settings
+│   └── processors/              # Diagram processors
+│       ├── base_processor.py    # Base class for processors
+│       └── activity_processor.py # Activity diagram processor
 ├── tests/                       # Tests
-│   ├── test_diagram_type.py     # Tests für Diagrammtyperkennung
-│   └── data/                    # Testdaten
-├── docs/                        # Dokumentation
+│   ├── test_diagram_type.py     # Diagram type detection tests
+│   └── data/                    # Test data
+├── docs/                        # Documentation
 │   ├── Installation_und_Benutzung.md
 │   ├── Arbeitsablauf.md
-│   └── ... (weitere Dokumentation)
-├── examples/                    # Beispieldiagramme
-│   └── activity_examples/       # Aktivitätsdiagramm-Beispiele
-└── resources/                   # Ressourcen
-    └── icons/                   # Anwendungsicons
+│   └── ... (additional docs)
+├── examples/                    # Example diagrams
+│   └── activity_examples/       # Activity diagram samples
+└── resources/                   # Resources
+    └── icons/                   # Application icons
 ```
 
-## Schnelleinstieg
+## Quick Start
 
 ### Installation
 
 ```bash
-# Repository klonen
+# Clone the repository
 git clone https://github.com/[username]/plantuml2drawio.git
 cd plantuml2drawio
 
-# Entwicklungsmodus installieren
+# Install in development mode
 pip install -e .
 ```
 
-### Verwendung
+### Usage
 
-#### Kommandozeile
+#### Command Line
 
 ```bash
-# Direkt über die Einstiegsskripte
+# Using the entry point scripts
 ./p2d-cli --input path/to/diagram.puml --output path/to/diagram.drawio
 
-# Oder über die installierten Kommandozeilenbefehle
+# Or using the installed console scripts
 p2d-cli --input path/to/diagram.puml --output path/to/diagram.drawio
 ```
 
-#### Grafische Benutzeroberfläche
+#### Graphical User Interface
 
 ```bash
-# Direkt über die Einstiegsskripte
+# Using the entry point scripts
 ./p2d-gui
 
-# Oder über die installierten Kommandozeilenbefehle
+# Or using the installed console scripts
 p2d-gui
 ```
 
-## Weitere Dokumentation
+## Additional Documentation
 
-- [Installation und Benutzung](Installation_und_Benutzung.md)
-- [Arbeitsablauf](Arbeitsablauf.md)
-- [Systemarchitektur](Systemarchitektur.md)
-- [Erweiterungen](Erweiterungen.md)
-- [Module](Module.md)
-- [Komponenten](Komponenten.md)
-- [Systemübersicht](Systemuebersicht.md)
+- [Installation and Usage](Installation_und_Benutzung.md)
+- [Workflow](Arbeitsablauf.md)
+- [System Architecture](Systemarchitektur.md)
+- [Extension Options](Erweiterungen.md)
+- [Modules](Module.md)
+- [Components](Komponenten.md)
+- [System Overview](Systemuebersicht.md)
 
-## Entwicklung
+## Development
 
-Für Entwickler, die zum Projekt beitragen möchten, bietet die neue modulare Struktur folgende Vorteile:
+For contributors, the modular structure offers several advantages:
 
-1. **Neue Diagrammtypen hinzufügen**: Erstellen Sie einfach einen neuen Prozessor im `src/processors/`-Verzeichnis, der von `BaseDiagramProcessor` erbt.
+1. **Add new diagram types**: create a new processor in the `src/processors/` directory that inherits from `BaseDiagramProcessor`.
+2. **Tests**: extend the tests in the `tests/` directory.
+3. **Examples**: add examples in the `examples/` directory to demonstrate functionality.
 
-2. **Tests**: Erweitern Sie die Tests im `tests/`-Verzeichnis.
+The project follows common Python standards, making it straightforward to extend and maintain.
 
-3. **Beispiele**: Fügen Sie Beispiele in das `examples/`-Verzeichnis ein, um die Funktionsweise zu demonstrieren.
+## Project Overview (duplicate for convenience)
 
-Die Projektstruktur folgt gängigen Python-Standards und ermöglicht eine einfache Erweiterung und Wartung.
-
-# PlantUML to Draw.io Converter
-
-Ein Werkzeug zur Konvertierung von PlantUML-Diagrammen in das Draw.io-Format.
+A tool for converting PlantUML diagrams into the Draw.io format.
 
 <p align="center">
   <img src="https://via.placeholder.com/700x200?text=PlantUML+to+Draw.io+Converter" alt="PlantUML to Draw.io Converter Logo"/>
 </p>
 
-## 📋 Übersicht
+### 📋 Overview
 
-Dieses Projekt ermöglicht die Konvertierung von PlantUML-Diagrammen in das Draw.io-Format, wodurch eine nahtlose Integration von UML-Diagrammen in verschiedene Dokumentations- und Präsentationsworkflows ermöglicht wird. Der Konverter unterstützt derzeit Aktivitätsdiagramme und wird kontinuierlich um weitere Diagrammtypen erweitert.
+This project converts PlantUML diagrams into Draw.io format, enabling seamless integration of UML diagrams into various documentation and presentation workflows. The converter currently supports activity diagrams and is being expanded to additional diagram types.
 
-## ✨ Hauptmerkmale
+### ✨ Key Features
 
-- 🔄 Konvertierung von PlantUML-Aktivitätsdiagrammen in das Draw.io-Format
-- 🔍 Automatische Erkennung des PlantUML-Diagrammtyps
-- 🖥️ Benutzerfreundliche GUI sowie Kommandozeilenschnittstelle
-- 📐 Automatische Layout-Berechnung für optimale Diagrammdarstellung
-- 🧩 Modularer Aufbau für einfache Erweiterbarkeit
+- 🔄 Conversion of PlantUML activity diagrams to Draw.io format
+- 🔍 Automatic detection of the PlantUML diagram type
+- 🖥️ User-friendly GUI as well as command-line interface
+- 📐 Automatic layout calculation for optimal diagram rendering
+- 🧩 Modular design for easy extensibility
 
-## 🚀 Schnellstart
+### 🚀 Quick Start
 
-### Installation
+#### Installation
 
 ```bash
-# Repository klonen
+# Clone repository
 git clone https://github.com/[username]/plantuml2drawio.git
 cd plantuml2drawio
 
-# Abhängigkeiten installieren
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Verwendung
+#### Usage
 
-#### Kommandozeile
+##### Command Line
 
 ```bash
 python p2d-cli --input diagrams/activity.puml --output diagrams/activity.drawio
 ```
 
-#### Grafische Benutzeroberfläche
+##### Graphical User Interface
 
 ```bash
 ./p2d-gui
 ```
 
-## 📚 Dokumentation
+### 📚 Documentation
 
-Detaillierte Dokumentation ist im `docs`-Verzeichnis verfügbar:
+Comprehensive documentation is available in the `docs` directory:
 
-- [Installation und Benutzung](Installation_und_Benutzung.md)
-- [Arbeitsablauf](Arbeitsablauf.md)
-- [Systemarchitektur](Systemarchitektur.md)
-- [Erweiterungsmöglichkeiten](Erweiterungen.md)
+- [Installation and Usage](Installation_und_Benutzung.md)
+- [Workflow](Arbeitsablauf.md)
+- [System Architecture](Systemarchitektur.md)
+- [Extension Possibilities](Erweiterungen.md)
 
-## 🧪 Beispiele
+### 🧪 Examples
 
-### Aktivitätsdiagramm
+#### Activity Diagram
 
-**PlantUML-Eingabe**:
+**PlantUML Input**:
 ```plantuml
 @startuml
 start
-:Schritt 1;
-if (Bedingung?) then (ja)
-  :Schritt 2a;
-else (nein)
-  :Schritt 2b;
+:Step 1;
+if (Condition?) then (yes)
+  :Step 2a;
+else (no)
+  :Step 2b;
 endif
-:Schritt 3;
+:Step 3;
 stop
 @enduml
 ```
 
-**Draw.io-Ausgabe**:
+**Draw.io Output**:
 
 <p align="center">
-  <img src="https://via.placeholder.com/500x300?text=Draw.io+Aktivitätsdiagramm" alt="Draw.io Aktivitätsdiagramm Beispiel"/>
+  <img src="https://via.placeholder.com/500x300?text=Draw.io+Activity+Diagram" alt="Draw.io Activity Diagram Example"/>
 </p>
 
-## 🛠️ Technologiestack
+### 🛠️ Technology Stack
 
 - Python 3.6+
-- tkinter für die GUI
-- Reguläre Ausdrücke für das Parsing
-- XML-Bibliotheken für die Draw.io-Generierung
+- tkinter for the GUI
+- Regular expressions for parsing
+- XML libraries for Draw.io generation
 
-## 🗺️ Roadmap
+### 🗺️ Roadmap
 
-- [x] Unterstützung für Aktivitätsdiagramme
-- [ ] Unterstützung für Sequenzdiagramme
-- [ ] Unterstützung für Klassendiagramme
-- [ ] Unterstützung für Komponentendiagramme
-- [ ] Erweitertes Layout-Management
-- [ ] Integration mit PlantUML-Server
-- [ ] Web-Interface
+- [x] Support for activity diagrams
+- [ ] Support for sequence diagrams
+- [ ] Support for class diagrams
+- [ ] Support for component diagrams
+- [ ] Advanced layout management
+- [ ] Integration with PlantUML server
+- [ ] Web interface
 
-## 🤝 Mitwirken
+### 🤝 Contributing
 
-Beiträge sind willkommen! Bitte lesen Sie unsere [Beitragsrichtlinien](CONTRIBUTING.md) für weitere Informationen.
+Contributions are welcome! Please read our [Contribution Guidelines](../CONTRIBUTING.md) for more information.
 
-## 📄 Lizenz
+### 📄 License
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.
-
-## 🙏 Danksagungen
-
-- [PlantUML](https://plantuml.com/) für die hervorragende UML-Diagramm-Syntax
-- [Draw.io](https://www.draw.io/) für das offene XML-Format und die Diagramm-Bearbeitungsfunktionen
-
----
-
-<p align="center">
-  Erstellt mit ❤️ für UML-Enthusiasten und Softwareentwickler
-</p>
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.

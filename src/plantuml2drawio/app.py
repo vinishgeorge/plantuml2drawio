@@ -17,7 +17,7 @@ class FileSelectorApp:
         self.ctk = ctk
 
         self.root = root
-        self.root.title("PlantUML zu Draw.io Konverter")
+        self.root.title("PlantUML to Draw.io Converter")
         self.root.geometry("800x600")  # Larger window for better overview
 
         # Set appearance mode and default color theme
@@ -34,7 +34,7 @@ class FileSelectorApp:
         # Row 0: Combined filename and diagram type label
         self.filename_label = ctk.CTkLabel(
             self.root,
-            text="Keine Datei ausgewählt | Diagramm-Typ: -",
+            text="No file selected | Diagram type: -",
             anchor="w",
             font=("Arial", 16),
         )
@@ -50,7 +50,7 @@ class FileSelectorApp:
         # "Open File" button on the left
         self.file_button = ctk.CTkButton(
             self.button_frame,
-            text="PlantUML-Datei öffnen",
+            text="Open PlantUML file",
             command=self.open_file,
             font=("Arial", 14, "bold"),
             width=180,  # Increased width to accommodate longer text
@@ -68,7 +68,7 @@ class FileSelectorApp:
         # initially disabled
         self.convert_button = ctk.CTkButton(
             self.button_frame,
-            text="Nach Draw.io konvertieren",
+            text="Convert to Draw.io",
             command=self.convert_to_drawio,
             state="disabled",
             font=("Arial", 14, "bold"),
@@ -179,18 +179,18 @@ class FileSelectorApp:
         # "File" menu
         file_menu = tk.Menu(menubar, tearoff=0)
         file_menu.add_command(
-            label="Datei öffnen", command=self.open_file, accelerator="Strg+O"
+            label="Open file", command=self.open_file, accelerator="Ctrl+O"
         )
         file_menu.add_separator()
         file_menu.add_command(
-            label="Beenden", command=self.root.quit, accelerator="Alt+F4"
+            label="Exit", command=self.root.quit, accelerator="Alt+F4"
         )
-        menubar.add_cascade(label="Datei", menu=file_menu)
+        menubar.add_cascade(label="File", menu=file_menu)
 
         # "Help" menu
         help_menu = tk.Menu(menubar, tearoff=0)
-        help_menu.add_command(label="Über", command=self.show_about, accelerator="F1")
-        menubar.add_cascade(label="Hilfe", menu=help_menu)
+        help_menu.add_command(label="About", command=self.show_about, accelerator="F1")
+        menubar.add_cascade(label="Help", menu=help_menu)
 
         self.root.config(menu=menubar)
 
@@ -204,8 +204,8 @@ class FileSelectorApp:
         from tkinter import messagebox
 
         messagebox.showinfo(
-            "Über",
-            f"PlantUML zu Draw.io Konverter\nVersion {VERSION}\n© 2025 doubleSlash.de",
+            "About",
+            f"PlantUML to Draw.io Converter\nVersion {VERSION}\n© 2025 doubleSlash.de",
         )
 
     def open_file(self):
@@ -231,39 +231,39 @@ class FileSelectorApp:
                 self.update_diagram_type(content)
 
                 # Aktualisiere die Nachricht
-                self.message_label.configure(text="PlantUML-Datei erfolgreich geladen.")
+                self.message_label.configure(text="PlantUML file loaded successfully.")
             except Exception as e:
                 self.current_file_path = None
                 self.filename_label.configure(
-                    text="Keine Datei ausgewählt | Diagramm-Typ: -"
+                    text="No file selected | Diagram type: -"
                 )
 
                 # Zeige Fehler in message_label statt im Text-Widget
-                self.message_label.configure(text=f"Fehler beim Laden der Datei: {e}")
+                self.message_label.configure(text=f"Error loading file: {e}")
 
                 # Disable convert button
                 self.convert_button.configure(state="disabled")
         else:
             # Zeige Nachricht im message_label statt im Text-Widget
             self.message_label.configure(
-                text="Bitte wählen Sie eine PlantUML-Datei zur Konvertierung aus."
+                text="Please select a PlantUML file to convert."
             )
 
     def update_diagram_type(self, content):
         """Update the filename label to include diagram type info."""
         filename_text = (
-            f"Geladene Datei: {os.path.basename(self.current_file_path)}"
+            f"Loaded file: {os.path.basename(self.current_file_path)}"
             if hasattr(self, "current_file_path") and self.current_file_path
-            else "Keine Datei ausgewählt"
+            else "No file selected"
         )
 
         if is_valid_activity_diagram(content):
             self.filename_label.configure(
-                text=f"{filename_text} | Diagramm-Typ: Aktivitätsdiagramm"
+                text=f"{filename_text} | Diagram type: Activity diagram"
             )
         else:
             self.filename_label.configure(
-                text=f"{filename_text} | Diagramm-Typ: Unbekannt"
+                text=f"{filename_text} | Diagram type: Unknown"
             )
 
     def update_text_and_button_state(self):
@@ -278,11 +278,11 @@ class FileSelectorApp:
         else:
             self.convert_button.configure(state="disabled")
             filename_text = (
-                f"Geladene Datei: {os.path.basename(self.current_file_path)}"
+                f"Loaded file: {os.path.basename(self.current_file_path)}"
                 if hasattr(self, "current_file_path") and self.current_file_path
-                else "Keine Datei ausgewählt"
+                else "No file selected"
             )
-            self.filename_label.configure(text=f"{filename_text} | Diagramm-Typ: -")
+            self.filename_label.configure(text=f"{filename_text} | Diagram type: -")
 
     def apply_syntax_highlighting(self):
         """Wendet Syntax-Highlighting auf den PlantUML-Code im Textfeld an."""
@@ -476,7 +476,7 @@ class FileSelectorApp:
         if not self.current_file_path:
             # Zeige Nachricht im message_label statt im Text-Widget
             self.message_label.configure(
-                text="Kein PlantUML-Code für die Konvertierung verfügbar."
+                text="No PlantUML code available for conversion."
             )
             return
 
@@ -496,7 +496,7 @@ class FileSelectorApp:
                 if not processor_class:
                     # Zeige Nachricht im message_label statt im Text-Widget
                     self.message_label.configure(
-                        text=f"Fehler: Nicht unterstützter Diagrammtyp: {diagram_type}"
+                        text=f"Error: Unsupported diagram type: {diagram_type}"
                     )
                     return
 
@@ -505,7 +505,7 @@ class FileSelectorApp:
             except Exception as parse_error:
                 # Zeige Nachricht im message_label statt im Text-Widget
                 self.message_label.configure(
-                    text=f"Fehler beim Parsen des PlantUML-Codes: {parse_error}"
+                    text=f"Error parsing PlantUML code: {parse_error}"
                 )
                 return
 
@@ -517,7 +517,7 @@ class FileSelectorApp:
             except Exception as layout_error:
                 # Zeige Nachricht im message_label statt im Text-Widget
                 self.message_label.configure(
-                    text=f"Fehler beim Layout des Diagramms: {layout_error}"
+                    text=f"Error laying out the diagram: {layout_error}"
                 )
                 return
 
@@ -527,7 +527,7 @@ class FileSelectorApp:
             except Exception as xml_error:
                 # Zeige Nachricht im message_label statt im Text-Widget
                 self.message_label.configure(
-                    text=f"Fehler bei der XML-Generierung: {xml_error}"
+                    text=f"Error during XML generation: {xml_error}"
                 )
                 return
 
@@ -540,20 +540,20 @@ class FileSelectorApp:
                         file.write(xml_content)
                     # Zeige Nachricht im message_label statt im Text-Widget
                     self.message_label.configure(
-                        text=f"Draw.io-Datei erstellt: {save_path}"
+                        text=f"Draw.io file created: {save_path}"
                     )
                 except Exception as io_error:
                     # Zeige Nachricht im message_label statt im Text-Widget
                     self.message_label.configure(
-                        text=f"Fehler beim Speichern der Datei: {io_error}"
+                        text=f"Error saving file: {io_error}"
                     )
             else:
                 # Zeige Nachricht im message_label statt im Text-Widget
-                self.message_label.configure(text="Speichern abgebrochen.")
+                self.message_label.configure(text="Save cancelled.")
 
         except Exception as e:
             # Zeige Nachricht im message_label statt im Text-Widget
-            self.message_label.configure(text=f"Fehler während der Konvertierung: {e}")
+            self.message_label.configure(text=f"Error during conversion: {e}")
 
     def _get_save_path(self):
         """Show a save dialog and return the selected path or None if cancelled."""
@@ -566,7 +566,7 @@ class FileSelectorApp:
 
         # Show save dialog to choose storage location
         save_path = self.ctk.filedialog.asksaveasfilename(
-            title="Draw.io-Datei speichern",
+            title="Save Draw.io file",
             initialfile=default_filename,
             defaultextension=".drawio",
             filetypes=[("Draw.io Files", "*.drawio")],

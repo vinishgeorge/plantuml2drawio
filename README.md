@@ -2,7 +2,7 @@
 
 A tool for converting PlantUML diagrams to Draw.io format.
 
-*[Deutsche Version weiter unten](#deutsche-version)*
+*[German version below](#german-version)*
 
 <p align="center">
   <img src="https://via.placeholder.com/700x200?text=PlantUML+to+Draw.io+Converter" alt="PlantUML to Draw.io Converter Logo"/>
@@ -190,55 +190,55 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<a name="deutsche-version"></a>
-# Deutsche Version
+<a name="german-version"></a>
+# German Version (English translation)
 
-## 📋 Übersicht
+## 📋 Overview
 
-Dieses Projekt ermöglicht die Konvertierung von PlantUML-Diagrammen in das Draw.io-Format, wodurch eine nahtlose Integration von UML-Diagrammen in verschiedene Dokumentations- und Präsentationsworkflows ermöglicht wird. Der Konverter unterstützt derzeit Aktivitätsdiagramme und wird kontinuierlich um weitere Diagrammtypen erweitert.
+This translated section mirrors the information above for readers who expected German content. The converter turns PlantUML diagrams into the Draw.io format so they can be integrated into documentation and presentation workflows. It currently supports activity diagrams and is being expanded to additional diagram types.
 
-## ✨ Hauptmerkmale
+## ✨ Key Features
 
-- 🔄 Konvertierung von PlantUML-Aktivitätsdiagrammen in das Draw.io-Format
-- 🔍 Automatische Erkennung des PlantUML-Diagrammtyps
-- 🖥️ Benutzerfreundliche GUI sowie Kommandozeilenschnittstelle
-- 📐 Automatische Layout-Berechnung für optimale Diagrammdarstellung
-- 🧩 Modularer Aufbau für einfache Erweiterbarkeit
+- 🔄 Conversion of PlantUML activity diagrams to the Draw.io format
+- 🔍 Automatic detection of the PlantUML diagram type
+- 🖥️ User-friendly GUI and command-line interface
+- 📐 Automatic layout calculation for optimal diagram display
+- 🧩 Modular structure for easy extensibility
 
-## 🚀 Schnellstart
+## 🚀 Quick Start
 
 ### Installation
 
 ```bash
-# Repository klonen
+# Clone the repository
 git clone https://github.com/doubleSlash-net/plantuml2drawio.git
 cd plantuml2drawio
 
-# Abhängigkeiten installieren
+# Install dependencies
 pip install -r requirements.txt
 
-# Oder im Entwicklungsmodus installieren
+# Or install in development mode
 pip install -e .
 ```
 
-### Verwendung
+### Usage
 
-#### Kommandozeile
+#### Command Line
 
 ```bash
-# Über die Einstiegsskripte
+# Using the entry point scripts
 ./p2d-cli --input examples/activity_examples/simple_activity.puml --output output.drawio
 
-# Oder über Python-Module
+# Or using Python modules
 python -m src.plantuml2drawio.core --input examples/activity_examples/simple_activity.puml --output output.drawio
 ```
 
-#### Grafische Benutzeroberfläche
+#### Graphical User Interface
 
 ```bash
-# Über die Einstiegsskripte
+# Using the entry point scripts
 ./p2d-gui
 
-# Oder über Python-Module
+# Or using Python modules
 python -m src.plantuml2drawio.app
 ```

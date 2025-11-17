@@ -1,99 +1,99 @@
-# Systemarchitektur
+# System Architecture
 
-Dieses Dokument beschreibt die aktuelle Architektur des PlantUML zu Draw.io Konverters.
+This document describes the current architecture of the PlantUML to Draw.io converter.
 
-## Überblick
+## Overview
 
-Das System ist modular aufgebaut und besteht aus folgenden Hauptkomponenten:
+The system is modular and consists of the following main components:
 
-1. **core.py**: Die Kernkomponente, die den Konvertierungsprozess steuert
-2. **processors/activity_processor.py**: Modul zur Verarbeitung von Aktivitätsdiagrammen
-3. **processors/base_processor.py**: Basisklasse für alle Diagramm-Prozessoren
-4. **app.py**: Grafische Benutzeroberfläche für den Konverter
+1. **core.py**: The core component that orchestrates the conversion process
+2. **processors/activity_processor.py**: Module for processing activity diagrams
+3. **processors/base_processor.py**: Base class for all diagram processors
+4. **app.py**: Graphical user interface for the converter
 
-## Komponentendiagramm
+## Component diagram
 
 ```plantuml
 @startuml
 
-package "PlantUML zu Draw.io Konverter" {
+package "PlantUML to Draw.io Converter" {
   [core.py] as Core
   [app.py] as App
   [processors/activity_processor.py] as ActivityProcessor
   [processors/base_processor.py] as BaseProcessor
 }
 
-Core --> ActivityProcessor : verwendet
-App --> Core : verwendet
-ActivityProcessor --> BaseProcessor : erbt von
+Core --> ActivityProcessor : uses
+App --> Core : uses
+ActivityProcessor --> BaseProcessor : inherits from
 
 @enduml
 ```
 
-## Komponenten im Detail
+## Components in detail
 
 ### core.py
 
-Die Kernkomponente übernimmt folgende Aufgaben:
+The core component handles:
 
-1. Parsen von Kommandozeilenargumenten
-2. Erkennen des PlantUML-Diagrammtyps
-3. Auswahl des entsprechenden Verarbeitungsmoduls
-4. Koordination des Konvertierungsprozesses
-5. Ausgabe des Ergebnisses im gewünschten Format
+1. Parsing command-line arguments
+2. Detecting the PlantUML diagram type
+3. Selecting the corresponding processing module
+4. Coordinating the conversion process
+5. Producing the desired output format
 
 ### processors/activity_processor.py
 
-Spezialisiertes Modul für die Verarbeitung von Aktivitätsdiagrammen:
+Specialized module for handling activity diagrams:
 
-- Parsing des PlantUML-Codes für Aktivitätsdiagramme
-- Berechnung des Layouts für die Diagramm-Elemente
-- Erzeugung des Draw.io-XML-Formats für Aktivitätsdiagramme
+- Parse PlantUML activity diagram code
+- Calculate the layout for diagram elements
+- Generate the Draw.io XML format for activity diagrams
 
-#### Hauptfunktionen:
+#### Key functions:
 
-- `parse_plantuml_activity(plantuml_content)`: Extrahiert Knoten und Kanten aus dem PlantUML-Code
-- `layout_activity(nodes, edges)`: Berechnet ein sinnvolles Layout für die Diagramm-Elemente
-- `create_drawioxml_activity(nodes, edges)`: Erzeugt das Draw.io-XML für ein Aktivitätsdiagramm
-- `create_json(nodes, edges)`: Erstellt eine JSON-Repräsentation des Diagramms
+- `parse_plantuml_activity(plantuml_content)`: Extracts nodes and edges from PlantUML code
+- `layout_activity(nodes, edges)`: Calculates a sensible layout for diagram elements
+- `create_drawioxml_activity(nodes, edges)`: Generates Draw.io XML for an activity diagram
+- `create_json(nodes, edges)`: Creates a JSON representation of the diagram
 
 ### processors/base_processor.py
 
-Basisklasse für alle Diagramm-Prozessoren:
+Base class for all diagram processors:
 
-- Enthält gemeinsame Funktionen und Attribute für alle Diagramm-Prozessoren
-- Stellt eine Schnittstelle für alle Diagramm-Prozessoren bereit
+- Contains shared functions and attributes
+- Provides an interface for all processors
 
 ### app.py
 
-Die grafische Benutzeroberfläche bietet:
+The graphical user interface offers:
 
-1. Ein Textfeld zur Eingabe des PlantUML-Codes
-2. Funktionen zum Laden und Speichern von Dateien
-3. Eine Schaltfläche zum Starten der Konvertierung
-4. Erkennung des Diagrammtyps
-5. Anzeige von Statusmeldungen
+1. A text field for entering PlantUML code
+2. Functions to load and save files
+3. A button to start the conversion
+4. Diagram type detection
+5. Status messages
 
-## Datenfluss
+## Data flow
 
-Der typische Datenfluss durch das System:
+The typical flow through the system:
 
-1. **Eingabe**: PlantUML-Code (aus Datei oder GUI)
-2. **Diagrammtyp-Erkennung**: Bestimmung des Diagrammtyps durch `determine_plantuml_diagram_type()`
-3. **Spezialisierte Verarbeitung**: Weiterleitung an das entsprechende Verarbeitungsmodul (derzeit nur Aktivitätsdiagramme)
-4. **Parsing**: Extraktion der Diagramm-Elemente (Knoten und Kanten)
-5. **Layout-Berechnung**: Bestimmung der Position jedes Elements
-6. **XML-Generierung**: Erstellung des Draw.io-kompatiblen XML-Formats
-7. **Ausgabe**: Speicherung als Draw.io-Datei (oder Anzeige in der GUI)
+1. **Input**: PlantUML code (from file or GUI)
+2. **Diagram type detection**: Determine the type via `determine_plantuml_diagram_type()`
+3. **Specialized processing**: Route to the appropriate processor (currently activity diagrams)
+4. **Parsing**: Extract diagram elements (nodes and edges)
+5. **Layout calculation**: Determine the position of each element
+6. **XML generation**: Create Draw.io-compatible XML
+7. **Output**: Save as a Draw.io file (or display in the GUI)
 
-## Zukünftige Architektur
+## Future architecture
 
-Mit der geplanten Unterstützung weiterer Diagrammtypen wird sich die Architektur wie folgt erweitern:
+With planned support for additional diagram types, the architecture will expand as follows:
 
 ```plantuml
 @startuml
 
-package "Kernkomponenten" {
+package "Core Components" {
   [core.py] as Core
   [app.py] as App
 }
@@ -106,19 +106,19 @@ package "modules" {
   [component_processor.py] as ComponentProcessor
 }
 
-Core --> PlantUMLProcessor : verwendet
-App --> Core : verwendet
+Core --> PlantUMLProcessor : uses
+App --> Core : uses
 
-Core --> ActivityProcessor : verwendet
-Core --> SequenceProcessor : verwendet
-Core --> ClassProcessor : verwendet
-Core --> ComponentProcessor : verwendet
+Core --> ActivityProcessor : uses
+Core --> SequenceProcessor : uses
+Core --> ClassProcessor : uses
+Core --> ComponentProcessor : uses
 
-note right of SequenceProcessor: Geplante Erweiterung
-note right of ClassProcessor: Geplante Erweiterung
-note right of ComponentProcessor: Geplante Erweiterung
+note right of SequenceProcessor: Planned extension
+note right of ClassProcessor: Planned extension
+note right of ComponentProcessor: Planned extension
 
 @enduml
 ```
 
-Jedes neue Diagrammtyp-Modul wird dabei ein ähnliches Interface implementieren, wodurch die Erweiterbarkeit des Systems sichergestellt wird.
+Each new diagram module will implement a similar interface to preserve the system's extensibility.
