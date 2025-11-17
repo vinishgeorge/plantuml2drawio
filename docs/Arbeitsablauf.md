@@ -1,157 +1,157 @@
-# Arbeitsablauf
+# Workflow
 
-Dieses Dokument beschreibt den detaillierten Arbeitsablauf bei der Konvertierung eines PlantUML-Diagramms in das Draw.io-Format.
+This document describes the detailed workflow for converting a PlantUML diagram into the Draw.io format.
 
-## Gesamtprozess
+## Overall process
 
-Der vollständige Prozess der Konvertierung umfasst die folgenden Hauptschritte:
+The full conversion process consists of the following main steps:
 
 ```plantuml
-@startuml Arbeitsablauf
+@startuml Workflow
 start
-:Einlesen des PlantUML-Codes;
-:Erkennung des Diagrammtyps;
-if (Unterstützter Diagrammtyp?) then (ja)
-  if (Aktivitätsdiagramm?) then (ja)
-    :Validierung des Aktivitätsdiagramms;
-    if (Gültiges Diagramm?) then (ja)
-      :Parsing des Aktivitätsdiagramms;
-      :Berechnung des Layouts;
-      if (JSON-Format gewünscht?) then (ja)
-        :Erstellung des JSON-Outputs;
-      else (nein)
-        :Erstellung des Draw.io-XML;
+:Read PlantUML code;
+:Detect diagram type;
+if (Supported diagram type?) then (yes)
+  if (Activity diagram?) then (yes)
+    :Validate the activity diagram;
+    if (Valid diagram?) then (yes)
+      :Parse the activity diagram;
+      :Calculate the layout;
+      if (JSON format desired?) then (yes)
+        :Create JSON output;
+      else (no)
+        :Create Draw.io XML;
       endif
-      :Speichern der Ausgabedatei;
-      :Erfolgreiche Konvertierung;
-    else (nein)
-      :Fehler: Ungültiges Aktivitätsdiagramm;
+      :Save the output file;
+      :Successful conversion;
+    else (no)
+      :Error: invalid activity diagram;
     endif
-  else (nein)
-    :Fehler: Diagrammtyp noch nicht unterstützt;
+  else (no)
+    :Error: diagram type not yet supported;
   endif
-else (nein)
-  :Fehler: Kein gültiger PlantUML-Code;
+else (no)
+  :Error: not valid PlantUML code;
 endif
 stop
 @enduml
 ```
 
-## Detaillierte Beschreibung der Schritte
+## Step-by-step explanation
 
-### 1. Einlesen des PlantUML-Codes
+### 1. Read the PlantUML code
 
-Der Benutzer kann ein PlantUML-Diagramm auf zwei Arten eingeben:
+Users can supply a PlantUML diagram in two ways:
 
-1. **Über die Kommandozeile**:
+1. **Via the command line**:
    ```bash
    ./p2d-cli --input diagram.puml --output diagram.drawio
    ```
 
-2. **Über die grafische Benutzeroberfläche**:
-   - Starten der GUI mit `./p2d-gui`
-   - Eingabe des PlantUML-Codes im Textfeld oder
-   - Laden einer PlantUML-Datei über "Datei öffnen"
+2. **Via the graphical interface**:
+   - Start the GUI with `./p2d-gui`
+   - Enter the PlantUML code in the text field, or
+   - Load a PlantUML file via "Open File"
 
-- **Verantwortliches Modul:** src/plantuml2drawio/core.py oder src/plantuml2drawio/app.py (je nach Schnittstelle)
+- **Responsible modules:** `src/plantuml2drawio/core.py` or `src/plantuml2drawio/app.py` (depending on interface)
 
-### 2. Erkennung des Diagrammtyps
+### 2. Detect the diagram type
 
-Das System analysiert den PlantUML-Code und erkennt den Diagrammtyp:
+The system analyzes the PlantUML code and detects the diagram type by:
 
-1. Suche nach charakteristischen Schlüsselwörtern und Strukturen
-2. Validierung des Diagramms gegen bekannte Muster
-3. Auswahl des entsprechenden Prozessors für den erkannten Typ
+1. Looking for characteristic keywords and structures
+2. Validating the diagram against known patterns
+3. Selecting the appropriate processor for the detected type
 
-- **Verantwortliches Modul:** src/plantuml2drawio/core.py
+- **Responsible module:** `src/plantuml2drawio/core.py`
 
-### 3. Parsing des PlantUML-Codes
+### 3. Parse the PlantUML code
 
-Der entsprechende Prozessor extrahiert die Struktur des Diagramms:
+The corresponding processor extracts the diagram structure by:
 
-1. Zerlegung des PlantUML-Codes in seine Bestandteile
-2. Identifikation von Knoten (Aktivitäten, Entscheidungen, Start/Ende)
-3. Identifikation von Kanten (Verbindungen zwischen Knoten)
-4. Extraktion von Beschriftungen und Eigenschaften
+1. Breaking the PlantUML code into its components
+2. Identifying nodes (activities, decisions, start/end)
+3. Identifying edges (connections between nodes)
+4. Extracting labels and properties
 
-- **Verantwortliches Modul:** src/processors/activity_processor.py
+- **Responsible module:** `src/processors/activity_processor.py`
 
-### 4. Validierung des Aktivitätsdiagramms
+### 4. Validate the activity diagram
 
-- **Verantwortliches Modul:** src/processors/activity_processor.py
-- **Funktion:** `is_valid_activity_diagram(plantuml_content)`
-- **Beschreibung:**
-  - Überprüfung auf erforderliche Elemente eines Aktivitätsdiagramms
-  - Prüfung auf PlantUML-Markierungen (@startuml, @enduml)
-  - Prüfung auf grundlegende Elemente (start, stop)
-  - Prüfung auf Aktivitätszeilen oder if-Blöcke
+- **Responsible module:** `src/processors/activity_processor.py`
+- **Function:** `is_valid_activity_diagram(plantuml_content)`
+- **Description:**
+  - Check for required elements of an activity diagram
+  - Verify PlantUML markers (@startuml, @enduml)
+  - Check for basic elements (start, stop)
+  - Ensure activity lines or if-blocks are present
 
-### 5. Berechnung des Layouts
+### 5. Calculate the layout
 
-- **Verantwortliches Modul:** modules/activity_processor.py
-- **Funktion:** `layout_activity_diagram(nodes, edges, ...)`
-- **Beschreibung:**
-  - Berechnung der optimalen Positionen für alle Knoten
-  - Verwendung eines rekursiven Tiefensuchalgorithmus (DFS)
-  - Zuweisung von Koordinaten basierend auf der Hierarchie im Diagramm
-  - Spezialbehandlung für Verzweigungs- und Vereinigungsknoten
+- **Responsible module:** `modules/activity_processor.py`
+- **Function:** `layout_activity_diagram(nodes, edges, ...)`
+- **Description:**
+  - Calculate optimal positions for all nodes
+  - Use a recursive depth-first search algorithm (DFS)
+  - Assign coordinates based on the hierarchy in the diagram
+  - Special handling for branching and merging nodes
 
-### 6. Erstellung der Ausgabe
+### 6. Create the output
 
-- **Verantwortliches Modul:** modules/activity_processor.py
-- **Funktionen:**
-  - `create_activity_drawio_xml(nodes, edges)` für Draw.io-XML
-  - `create_json(nodes, edges)` für JSON-Format
-- **Beschreibung:**
-  - Bei XML: Erstellung einer XML-Struktur nach dem Draw.io-Format mit den korrekten Stilen und Eigenschaften
-  - Bei JSON: Erstellung einer JSON-Repräsentation der Knoten und Kanten
-  - Kodierung als UTF-8 für Unterstützung von Sonderzeichen
+- **Responsible module:** `modules/activity_processor.py`
+- **Functions:**
+  - `create_activity_drawio_xml(nodes, edges)` for Draw.io XML
+  - `create_json(nodes, edges)` for JSON format
+- **Description:**
+  - For XML: build a Draw.io-formatted XML structure with correct styles and properties
+  - For JSON: build a JSON representation of nodes and edges
+  - Encode as UTF-8 to support special characters
 
-### 7. Speichern der Ausgabedatei
+### 7. Save the output file
 
-- **Verantwortliches Modul:** src/plantuml2drawio/core.py oder src/plantuml2drawio/app.py (je nach Schnittstelle)
-- **Funktion:**
+- **Responsible modules:** `src/plantuml2drawio/core.py` or `src/plantuml2drawio/app.py` (depending on interface)
+- **Functions:**
   - CLI: `write_output_file(content, file_path)`
-  - GUI: Dateiauswahldialog in `convert_to_drawio()`
-- **Beschreibung:**
-  - Schreiben des generierten Inhalts in eine Datei
-  - Bei CLI: Verwendung des angegebenen oder automatisch bestimmten Dateinamens
-  - Bei GUI: Anzeigen eines Speicherdialogs für den Benutzer
+  - GUI: file selection dialog in `convert_to_drawio()`
+- **Description:**
+  - Write the generated content to a file
+  - CLI: use the provided or automatically determined filename
+  - GUI: present a save dialog for the user
 
-## Fehlerbehandlung
+## Error handling
 
-Das System beinhaltet mehrere Ebenen der Fehlerbehandlung:
+The system includes several layers of error handling:
 
-1. **Frühe Validierung:**
-   - Überprüfung auf gültigen PlantUML-Code
-   - Identifikation des Diagrammtyps
-   - Spezifische Validierung für Aktivitätsdiagramme
+1. **Early validation:**
+   - Check for valid PlantUML code
+   - Identify the diagram type
+   - Perform diagram-specific validation for activity diagrams
 
-2. **Strukturierte Ausnahmebehandlung:**
-   - Try-Except-Blöcke für alle kritischen Operationen
-   - Detaillierte Fehlermeldungen für die verschiedenen Verarbeitungsstufen
-   - Unterscheidung zwischen E/A-Fehlern und Verarbeitungsfehlern
+2. **Structured exception handling:**
+   - Try/except blocks around critical operations
+   - Detailed error messages for each processing stage
+   - Distinguish between I/O errors and processing errors
 
-3. **Benutzerrückmeldung:**
-   - CLI: Aussagekräftige Fehlermeldungen auf der Konsole
-   - GUI: Statusmeldungen in der Benutzeroberfläche
+3. **User feedback:**
+   - CLI: descriptive error messages on the console
+   - GUI: status messages within the interface
 
-## Beispiel
+## Example
 
-Ein einfaches Beispiel für die Konvertierung eines Aktivitätsdiagramms:
+A simple example for converting an activity diagram:
 
 ```plantuml
 @startuml
 start
-:Schritt 1;
-if (Bedingung?) then (ja)
-  :Schritt 2a;
-else (nein)
-  :Schritt 2b;
+:Step 1;
+if (Condition?) then (yes)
+  :Step 2a;
+else (no)
+  :Step 2b;
 endif
-:Schritt 3;
+:Step 3;
 stop
 @enduml
 ```
 
-Wird konvertiert in eine Draw.io-XML-Datei, die in Draw.io geöffnet werden kann und das Diagramm mit denselben Elementen und Verbindungen darstellt, jedoch mit dem Draw.io-eigenen Darstellungsstil.
+The result is a Draw.io XML file that can be opened in Draw.io, showing the same elements and connections using the Draw.io styling.

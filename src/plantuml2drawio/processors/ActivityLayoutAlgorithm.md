@@ -1,22 +1,22 @@
-# Algorithmus zur Positionierung von Elementen in einem Aktivitätsdiagramm
+# Algorithm for Positioning Elements in an Activity Diagram
 
-Der Algorithmus positioniert Knoten eines Aktivitätsdiagramms rekursiv, wobei folgende Knotentypen behandelt werden:
+The algorithm positions nodes of an activity diagram recursively and handles the following node types:
 
-- **Start- und Endknoten**
-- **Aktivitätsknoten** (immer einen Eingang, genau einen Ausgang)
-- **Bedingungsknoten** (zwei Ausgänge: „wahr" und „falsch")
-- **Merge-Knoten** (zwei Eingänge)
+- **Start and end nodes**
+- **Activity nodes** (always one incoming edge, exactly one outgoing edge)
+- **Decision nodes** (two outgoing edges: "true" and "false")
+- **Merge nodes** (two incoming edges)
 
-Alle Knoten werden vertikal in gleichen Abständen angeordnet (von oben nach unten). Zusätzlich wird bei Bedingungen der falsche Pfad um einen festen horizontalen Offset verschoben. Wichtig ist, dass auch bei Bedingungen, die auf bereits verschobenen (falschen) Pfaden auftreten, der zusätzliche Offset kumulativ angewendet wird – und dass alle nachfolgenden Knoten, egal ob auf dem ursprünglich „richtigen" (vertikalen) Pfad oder auf einem falschen Pfad, stets mindestens den maximal erreichten Offset übernehmen.
+All nodes are arranged vertically with equal spacing from top to bottom. For decisions, the false path is shifted by a fixed horizontal offset. When decisions appear on already shifted false paths, the additional offset is applied cumulatively, and all subsequent nodes—whether on the original vertical path or on a false path—inherit at least the maximum offset reached so far.
 
 ---
 
-### Parameter
+### Parameters
 
-- **verticalSpacing:** Fester vertikaler Abstand zwischen den Knoten.
-- **horizontalOffset:** Fester horizontaler Versatz, der bei jedem Übergang in den falschen Pfad addiert wird.
-- **currentOffset:** Lokaler Offset, der den kumulierten Versatz entlang des aktuellen Pfades angibt.
-- **globalOffset:** Der bislang maximale Offset, der in falschen Pfaden gesetzt wurde und auch auf den „richtigen" (vertikalen) Pfad übernommen wird, um bereits verankerte falsche Pfade nicht zu "verrutschen".
+- **verticalSpacing:** Fixed vertical distance between nodes.
+- **horizontalOffset:** Fixed horizontal shift added whenever the false path is taken.
+- **currentOffset:** Local offset representing the cumulative shift along the current path.
+- **globalOffset:** Maximum offset reached on any false path that also applies to the "true" (vertical) path so previously placed false paths remain aligned.
 
 ---
 
@@ -24,76 +24,76 @@ Alle Knoten werden vertikal in gleichen Abständen angeordnet (von oben nach unt
 
 ```pseudo
 function layout(node, baseX, currentY, currentOffset, globalOffset):
-    // Positioniere den aktuellen Knoten:
-    // Der x-Wert entspricht dem Basiswert plus dem maximalen Offset (currentOffset oder globalOffset)
+    // Position the current node:
+    // The x-value equals the base plus the greater of currentOffset or globalOffset
     node.x = baseX + max(currentOffset, globalOffset)
     node.y = currentY
 
-    // Bereite den nächsten vertikalen Startpunkt vor
+    // Prepare the next vertical start point
     newY = currentY + verticalSpacing
 
-    if node.type == 'Bedingung':
-        // RICHTIGER Pfad: Der True-Ausgang folgt vertikal ohne zusätzlichen Offset.
+    if node.type == 'Decision':
+        // TRUE path: follows vertically without extra offset.
         if node.trueSuccessor exists:
             layout(node.trueSuccessor, baseX, newY, currentOffset, globalOffset)
 
-        // FALSCHER Pfad: Hier wird der currentOffset um den horizontalOffset erhöht.
+        // FALSE path: increase currentOffset by the horizontalOffset.
         newFalseOffset = currentOffset + horizontalOffset
-        // Aktualisiere globalOffset, sodass er den maximal erreichten Offset abbildet.
+        // Update globalOffset to reflect the maximum reached offset.
         newGlobalOffset = max(globalOffset, newFalseOffset)
         if node.falseSuccessor exists:
             layout(node.falseSuccessor, baseX, newY, newFalseOffset, newGlobalOffset)
 
-    else if node.type == 'Aktivität' or node.type == 'Start' or node.type == 'Merge':
-        // Diese Knoten haben einen einzigen Ausgang.
+    else if node.type == 'Activity' or node.type == 'Start' or node.type == 'Merge':
+        // These nodes have a single successor.
         if node.successor exists:
             layout(node.successor, baseX, newY, currentOffset, globalOffset)
 
     else if node.type == 'End':
-        // Endknoten: Keine Nachfolger
+        // End node: no successors
         return
 ```
 
 ---
 
-### Funktionsweise und Besonderheiten
+### Behavior and considerations
 
-1. **Start und Vertikale Platzierung:**
-   Der Layout-Prozess beginnt mit dem Startknoten. Jeder Knoten wird so positioniert, dass seine x-Koordinate `baseX + max(currentOffset, globalOffset)` ist. Der y-Wert wird stets um den festen `verticalSpacing` erhöht.
+1. **Start and vertical placement:**
+   The layout begins with the start node. Each node is placed so its x-coordinate is `baseX + max(currentOffset, globalOffset)`. The y-value is always increased by the fixed `verticalSpacing`.
 
-2. **Bedingungsknoten:**
-   - Beim **wahren Ausgang** (True-Pfad) bleibt der `currentOffset` unverändert – der Pfad verläuft vertikal.
-   - Beim **falschen Ausgang** (False-Pfad) wird der `currentOffset` um `horizontalOffset` erhöht. Dieser neue Offset wird dann als Basis für alle Knoten in diesem Pfad verwendet.
-   - Gleichzeitig wird der `globalOffset` aktualisiert, sodass auch Knoten, die anschließend auf einem "richtigen" (vertikalen) Pfad folgen, den maximal erreichten Offset übernehmen. Das ist entscheidend, um auch dann, wenn auf dem vertikalen Pfad wieder eine Bedingung auftritt, alle zuvor verschobenen falschen Pfade mitzuschieben.
+2. **Decision nodes:**
+   - For the **true branch**, `currentOffset` remains unchanged and the path continues vertically.
+   - For the **false branch**, `currentOffset` increases by `horizontalOffset`. This new offset becomes the basis for all nodes on that path.
+   - `globalOffset` is updated so nodes that later return to the "true" (vertical) path inherit the maximum offset. This ensures previously shifted false paths stay aligned even if another decision occurs on the vertical path.
 
-3. **Konditionen auf falschen Pfaden:**
-   Der Algorithmus behandelt Bedingungen auf falschen Pfaden genauso wie Bedingungen auf dem vertikalen Pfad. Das bedeutet:
-   - Auch hier wird beim falschen Ausgang der `currentOffset` um den `horizontalOffset` erhöht und der `globalOffset` angepasst.
-   - Somit wird sichergestellt, dass sich bei mehrfach verschachtelten Bedingungen die Verschiebung nach rechts stets kumulativ erhöht.
+3. **Decisions on false paths:**
+   The algorithm treats decisions on false paths the same way as on the vertical path:
+   - The **false branch** again increases `currentOffset` by `horizontalOffset` and updates `globalOffset`.
+   - This guarantees that nested decisions continue shifting to the right cumulatively.
 
-4. **Merge-Knoten:**
-   Bei Merge-Knoten, die zwei Eingänge besitzen, kann es nötig sein, die x-Position anhand der x-Werte beider Eingänge zu berechnen (beispielsweise den maximalen Wert). Im obigen Pseudocode wird angenommen, dass der bereits übergebene Offset ausreichend ist; je nach konkreter Implementierung kann hier noch eine Zusammenführungslogik ergänzt werden.
+4. **Merge nodes:**
+   Merge nodes with two incoming edges may need their x-position calculated from both incoming x-values (for example, the maximum). The pseudocode assumes the passed offset is sufficient; a merging strategy can be added as needed.
 
 ---
 
-### Beispielaufruf
+### Example call
 
-Der Algorithmus wird mit dem Startknoten initialisiert, z. B.:
+Initialize the algorithm with the start node, for example:
 
 ```pseudo
 layout(startNode, 0, 0, 0, 0)
 ```
 
-Dabei wird `baseX` als 0 gewählt und sowohl `currentOffset` als auch `globalOffset` starten bei 0.
+Here `baseX` is 0 and both `currentOffset` and `globalOffset` start at 0.
 
 ---
 
-### Zusammenfassung
+### Summary
 
-- **Rekursives Layout:** Jeder Knoten wird unter Berücksichtigung von vertikalem Abstand und horizontalem Offset positioniert.
-- **Bedingungen:**
-  - Der True-Pfad bleibt vertikal, während der False-Pfad um einen festen horizontalen Versatz nach rechts verschoben wird.
-  - Dieser Versatz wird kumulativ weitergegeben, sodass auch bei Bedingungen auf bereits falschen Pfaden alle nachfolgenden Knoten entsprechend verschoben werden.
-- **globalOffset:** Er gewährleistet, dass alle Knoten – auch wenn sie später im vertikalen Pfad auftauchen – mindestens den maximal erreichten Offset übernehmen, um die Konsistenz des Layouts zu sichern.
+- **Recursive layout:** Each node is positioned using vertical spacing and the current horizontal offset.
+- **Decisions:**
+  - The true path stays vertical, while the false path shifts right by a fixed offset.
+  - The shift is cumulative so decisions on already false paths keep pushing subsequent nodes to the right.
+- **globalOffset:** Ensures all nodes—even those returning to the vertical path—inherit at least the maximum offset reached, preserving layout consistency.
 
-Diese Beschreibung sollte alle geforderten Layout-Regeln und das Verhalten bei verschachtelten Bedingungen abdecken.
+This description captures the required layout rules and behavior for nested decisions.

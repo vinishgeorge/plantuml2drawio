@@ -1,144 +1,144 @@
-# Modulbeschreibungen
+# Module Descriptions
 
-Dieser Abschnitt enthält detaillierte Informationen zu den einzelnen Modulen des PlantUML zu Draw.io Konverters.
+This section provides detailed information about each module of the PlantUML to Draw.io converter.
 
-## src/plantuml2drawio/core.py - Kernmodul
+## src/plantuml2drawio/core.py - Core module
 
-Das Kernmodul ist verantwortlich für:
+The core module is responsible for:
 
-- Verarbeitung von Kommandozeilenargumenten
-- Erkennung des PlantUML-Diagrammtyps
-- Koordination des Konvertierungsprozesses
-- Auswahl des entsprechenden Prozessors für den erkannten Diagrammtyp
-- Ausgabe des Ergebnisses im gewünschten Format
+- Processing command-line arguments
+- Detecting the PlantUML diagram type
+- Coordinating the conversion process
+- Selecting the appropriate processor for the detected diagram type
+- Producing output in the desired format
 
-### Hauptfunktionen
+### Key functions
 
-- `determine_plantuml_diagram_type(content)`: Erkennt den Typ eines PlantUML-Diagramms
-- `process_file(input_file, output_file, info_only)`: Steuert den Konvertierungsprozess
-- `main()`: Einstiegspunkt für die Kommandozeilenverarbeitung
+- `determine_plantuml_diagram_type(content)`: Detects the type of a PlantUML diagram
+- `process_file(input_file, output_file, info_only)`: Drives the conversion process
+- `main()`: Entry point for command-line handling
 
-### Konstanten
+### Constants
 
-| Konstante | Beschreibung |
+| Constant | Description |
 |-----------|--------------|
-| `OUTPUT_FORMAT_JSON` | Bezeichnung für JSON-Ausgabeformat |
-| `OUTPUT_FORMAT_XML` | Bezeichnung für XML-Ausgabeformat |
-| `DEFAULT_JSON_EXT` | Standarddateierweiterung für JSON-Ausgabe |
-| `DEFAULT_DRAWIO_EXT` | Standarddateierweiterung für Draw.io-Ausgabe |
-| `DIAGRAM_TYPE_ACTIVITY` | Bezeichnung für Aktivitätsdiagramme |
-| `DIAGRAM_TYPE_NOT_PLANTUML` | Bezeichnung für ungültige PlantUML-Inhalte |
+| `OUTPUT_FORMAT_JSON` | Label for JSON output format |
+| `OUTPUT_FORMAT_XML` | Label for XML output format |
+| `DEFAULT_JSON_EXT` | Default extension for JSON output |
+| `DEFAULT_DRAWIO_EXT` | Default extension for Draw.io output |
+| `DIAGRAM_TYPE_ACTIVITY` | Label for activity diagrams |
+| `DIAGRAM_TYPE_NOT_PLANTUML` | Label for invalid PlantUML content |
 
-### Importierte Module
+### Imported modules
 
-- `modules.activity_processor`: Funktionen für die Verarbeitung von Aktivitätsdiagrammen
-- Standardbibliotheken: `sys`, `argparse`, `os`, `re`, `typing`
+- `modules.activity_processor`: Functions for processing activity diagrams
+- Standard libraries: `sys`, `argparse`, `os`, `re`, `typing`
 
-## modules/activity_processor.py - Aktivitätsdiagramm-Verarbeitung
+## modules/activity_processor.py - Activity diagram processing
 
-Dieses Modul ist spezialisiert auf die Verarbeitung von PlantUML-Aktivitätsdiagrammen und enthält alle dafür notwendigen Funktionen.
+This module specializes in processing PlantUML activity diagrams and contains all required functions.
 
-### Klassen
+### Classes
 
-| Klasse | Beschreibung |
+| Class | Description |
 |--------|--------------|
-| `Node` | Repräsentiert einen Knoten im Diagramm mit Eigenschaften wie ID, Label, Form, Position und Größe |
-| `Edge` | Repräsentiert eine Kante zwischen zwei Knoten im Diagramm mit Eigenschaften wie ID, Quell- und Zielknoten sowie Label |
+| `Node` | Represents a diagram node with properties like ID, label, shape, position, and size |
+| `Edge` | Represents an edge between two nodes with properties like ID, source, target, and label |
 
-### Hauptfunktionen
+### Key functions
 
-| Funktion | Beschreibung |
+| Function | Description |
 |----------|--------------|
-| `is_valid_activity_diagram(plantuml_content)` | Überprüft, ob ein gültiges PlantUML-Aktivitätsdiagramm vorliegt |
-| `parse_activity_diagram(plantuml_content)` | Analysiert das PlantUML-Aktivitätsdiagramm und erstellt Knoten- und Kantenlisten |
-| `layout_activity_diagram(nodes, edges, ...)` | Berechnet ein optimales Layout für das Diagramm |
-| `create_activity_drawio_xml(nodes, edges)` | Erzeugt XML im Draw.io-Format aus Knoten und Kanten |
-| `create_json(nodes, edges)` | Erzeugt eine JSON-Repräsentation aus Knoten und Kanten |
+| `is_valid_activity_diagram(plantuml_content)` | Checks whether a valid PlantUML activity diagram is present |
+| `parse_activity_diagram(plantuml_content)` | Analyzes the PlantUML activity diagram and creates node and edge lists |
+| `layout_activity_diagram(nodes, edges, ...)` | Calculates an optimal layout for the diagram |
+| `create_activity_drawio_xml(nodes, edges)` | Generates Draw.io XML from nodes and edges |
+| `create_json(nodes, edges)` | Generates a JSON representation from nodes and edges |
 
-### Importierte Module
+### Imported modules
 
-- Standardbibliotheken: `re`, `xml.etree.ElementTree`, `sys`, `collections.defaultdict`, `json`
+- Standard libraries: `re`, `xml.etree.ElementTree`, `sys`, `collections.defaultdict`, `json`
 
-## src/plantuml2drawio/app.py - Grafische Benutzeroberfläche
+## src/plantuml2drawio/app.py - Graphical User Interface
 
-Die GUI-Komponente bietet:
+The GUI component provides:
 
-- Eine benutzerfreundliche Oberfläche für die Konvertierung
-- Funktionen zum Laden und Speichern von Dateien
-- Anzeige des erkannten Diagrammtyps
-- Visualisierung des Konvertierungsprozesses
+- A user-friendly interface for conversion
+- Functions to load and save files
+- Display of the detected diagram type
+- Visualization of the conversion process
 
-### Hauptklassen
+### Main classes
 
-- `FileSelectorApp`: Hauptklasse der Anwendung
-- `PlantUMLEditor`: Editor für PlantUML-Code
-- `StatusBar`: Statusleiste für Meldungen
+- `FileSelectorApp`: Main application class
+- `PlantUMLEditor`: Editor for PlantUML code
+- `StatusBar`: Status bar for messages
 
-### Hauptmethoden von FileSelectorApp
+### Key methods of FileSelectorApp
 
-| Methode | Beschreibung |
+| Method | Description |
 |---------|--------------|
-| `__init__(self, root)` | Initialisiert die GUI und ihre Komponenten |
-| `create_menubar(self)` | Erstellt die Menüleiste |
-| `show_about(self)` | Zeigt Informationen über die Anwendung an |
-| `open_file(self)` | Öffnet eine PlantUML-Datei über einen Dateiauswahldialog |
-| `update_text_and_button_state(self)` | Aktualisiert den Zustand der Schaltflächen basierend auf dem Inhalt |
-| `apply_syntax_highlighting(self)` | Wendet Syntax-Highlighting auf den PlantUML-Code an |
-| `convert_to_drawio(self)` | Konvertiert den aktuellen PlantUML-Code in das Draw.io-Format |
+| `__init__(self, root)` | Initializes the GUI and its components |
+| `create_menubar(self)` | Builds the menu bar |
+| `show_about(self)` | Displays application information |
+| `open_file(self)` | Opens a PlantUML file via a file dialog |
+| `update_text_and_button_state(self)` | Updates button state based on content |
+| `apply_syntax_highlighting(self)` | Applies syntax highlighting to PlantUML code |
+| `convert_to_drawio(self)` | Converts the current PlantUML code to Draw.io format |
 
-### Importierte Module
+### Imported modules
 
-- `modules.activity_processor`: Funktionen für die Verarbeitung von Aktivitätsdiagrammen
-- `customtkinter`: Erweitertes Tkinter für moderne GUI-Elemente
-- Standardbibliotheken: `os`, `sys`, `tkinter`, `traceback`
+- `modules.activity_processor`: Functions for processing activity diagrams
+- `customtkinter`: Extended Tkinter for modern GUI elements
+- Standard libraries: `os`, `sys`, `tkinter`, `traceback`
 
-## src/processors/base_processor.py - Basisklasse für Prozessoren
+## src/processors/base_processor.py - Base class for processors
 
-Diese Basisklasse definiert die Schnittstelle für alle Diagramm-Prozessoren:
+This base class defines the interface for all diagram processors:
 
-- Abstrakte Methoden für die Verarbeitung verschiedener Diagrammtypen
-- Gemeinsame Funktionalität für alle Prozessoren
-- Basisklassen für Diagrammelemente (Knoten, Kanten)
+- Abstract methods for handling different diagram types
+- Shared functionality for all processors
+- Base classes for diagram elements (nodes, edges)
 
-## src/processors/activity_processor.py - Aktivitätsdiagramm-Prozessor
+## src/processors/activity_processor.py - Activity diagram processor
 
-Spezialisiertes Modul für die Verarbeitung von Aktivitätsdiagrammen:
+Specialized module for processing activity diagrams:
 
-- Parsing von PlantUML-Aktivitätsdiagrammen
-- Extraktion von Knoten und Kanten
-- Layout-Berechnung
-- Generierung des Draw.io-XML-Formats
+- Parse PlantUML activity diagrams
+- Extract nodes and edges
+- Calculate layouts
+- Generate Draw.io XML
 
-### Hauptfunktionen
+### Key functions
 
-- `is_valid_activity_diagram(content)`: Prüft, ob es sich um ein gültiges Aktivitätsdiagramm handelt
-- `parse_activity_diagram(content)`: Extrahiert Knoten und Kanten
-- `layout_activity_diagram(nodes, edges)`: Berechnet das Layout
-- `create_activity_drawio_xml(nodes, edges)`: Erzeugt das Draw.io-XML
+- `is_valid_activity_diagram(content)`: Validates an activity diagram
+- `parse_activity_diagram(content)`: Extracts nodes and edges
+- `layout_activity_diagram(nodes, edges)`: Calculates the layout
+- `create_activity_drawio_xml(nodes, edges)`: Generates Draw.io XML
 
-## Modulinteraktionen
+## Module interactions
 
-Der typische Ablauf einer Konvertierung:
+The typical conversion flow:
 
-1. **Eingabe**:
-   - `core.py` wird mit Eingabe- und Ausgabeparametern aufgerufen
-   - `app.py` zeigt die Benutzeroberfläche an
+1. **Input**:
+   - `core.py` is called with input and output parameters
+   - `app.py` displays the user interface
 
-2. **Verarbeitung**:
-   - `core.py` erkennt den Diagrammtyp
-   - Der entsprechende Prozessor wird ausgewählt
-   - Der Prozessor parst das Diagramm und berechnet das Layout
-   - Der Prozessor generiert das Draw.io-XML
+2. **Processing**:
+   - `core.py` detects the diagram type
+   - The appropriate processor is selected
+   - The processor parses the diagram and calculates the layout
+   - The processor generates the Draw.io XML
 
-3. **Ausgabe**:
-   - `core.py` oder `app.py` speichert das Ergebnis
+3. **Output**:
+   - `core.py` or `app.py` saves the result
 
-## Erweiterung um neue Diagrammtypen
+## Extending with new diagram types
 
-Um einen neuen Diagrammtyp zu unterstützen:
+To support a new diagram type:
 
-1. Erstellen eines neuen Prozessors in `src/processors/`, der von `BaseDiagramProcessor` erbt
-2. Implementieren der abstrakten Methoden für den neuen Diagrammtyp
-3. Aktualisieren von `core.py`, um das neue Modul für den entsprechenden Diagrammtyp zu verwenden
+1. Create a new processor in `src/processors/` that inherits from `BaseDiagramProcessor`.
+2. Implement the abstract methods for the new diagram type.
+3. Update `core.py` to use the new module for the corresponding diagram type.
 
-Dank der modularen Architektur sind keine größeren Änderungen am bestehenden Code nötig.
+Thanks to the modular architecture, no major changes to existing code are required.

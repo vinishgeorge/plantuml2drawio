@@ -1,80 +1,80 @@
-# Komponentendiagramm
+# Component Diagram
 
-Das folgende Komponentendiagramm zeigt die Hauptmodule des PlantUML zu Draw.io Konverters und ihre Abhängigkeiten:
+The following component diagram shows the main modules of the PlantUML to Draw.io converter and their dependencies:
 
 ```plantuml
 @startuml
-package "PlantUML zu Draw.io Konverter" {
+package "PlantUML to Draw.io Converter" {
   component "src/plantuml2drawio/core.py" as core {
-    [Diagrammtyp-Erkennung]
-    [Konvertierungssteuerung]
-    [CLI-Interface]
+    [Diagram type detection]
+    [Conversion control]
+    [CLI interface]
   }
 
   component "src/plantuml2drawio/app.py" as gui {
-    [GUI-Interface]
-    [Datei-Operationen]
-    [Benutzerinteraktion]
+    [GUI interface]
+    [File operations]
+    [User interaction]
   }
 
   component "src/processors/activity_processor.py" as activity {
-    [Aktivitätsdiagramm-Parser]
-    [Layout-Berechnung]
-    [Draw.io-XML-Generator]
+    [Activity diagram parser]
+    [Layout calculation]
+    [Draw.io XML generator]
   }
 
   component "src/processors/base_processor.py" as base {
-    [Basis-Klassen]
-    [Gemeinsame Funktionen]
-    [Abstrakte Methoden]
+    [Base classes]
+    [Shared functions]
+    [Abstract methods]
   }
 
-  gui --> core : verwendet
-  core --> activity : verwendet
-  activity --> base : erbt von
+  gui --> core : uses
+  core --> activity : uses
+  activity --> base : inherits from
 }
 @enduml
 ```
 
-## Hauptkomponenten
+## Main components
 
 1. **src/plantuml2drawio/core.py**
-   - Kernkomponente des Systems
-   - Steuert den Konvertierungsprozess
-   - Bietet die Kommandozeilenschnittstelle
-   - Erkennt den Diagrammtyp
-   - Koordiniert die Verarbeitung
+   - Core component of the system
+   - Controls the conversion process
+   - Provides the command-line interface
+   - Detects the diagram type
+   - Coordinates processing
 
 2. **src/processors/activity_processor.py**
-   - Spezialisierte Komponente für Aktivitätsdiagramme
-   - Parst PlantUML-Aktivitätsdiagramme
-   - Berechnet das Layout
-   - Generiert das Draw.io-XML
+   - Specialized component for activity diagrams
+   - Parses PlantUML activity diagrams
+   - Calculates the layout
+   - Generates Draw.io XML
 
 3. **src/plantuml2drawio/app.py**
-   - Grafische Benutzeroberfläche
-   - Bietet Dateioperationen
-   - Visualisiert den Konvertierungsprozess
-   - Zeigt Ergebnisse und Fehler an
+   - Graphical user interface
+   - Provides file operations
+   - Visualizes the conversion process
+   - Shows results and errors
 
 4. **src/processors/base_processor.py**
-   - Basisklasse für alle Diagramm-Prozessoren
-   - Definiert die gemeinsame Schnittstelle
-   - Stellt Basis-Klassen für Diagrammelemente bereit
+   - Base class for all diagram processors
+   - Defines the shared interface
+   - Supplies base classes for diagram elements
 
-## Komponenteninteraktionen
+## Component interactions
 
-- **src/plantuml2drawio/core.py** übernimmt die Koordination und generische Funktionalität
-- **src/processors/activity_processor.py** implementiert die spezifische Logik für Aktivitätsdiagramme
-- **src/plantuml2drawio/app.py** behandelt nur UI-bezogene Aspekte
-- **src/processors/base_processor.py** definiert die gemeinsame Schnittstelle für alle Prozessoren
+- **src/plantuml2drawio/core.py** handles coordination and shared functionality
+- **src/processors/activity_processor.py** implements logic specific to activity diagrams
+- **src/plantuml2drawio/app.py** focuses on UI concerns only
+- **src/processors/base_processor.py** defines the common interface for all processors
 
-## Modulare Architektur
+## Modular architecture
 
-Das Diagramm veranschaulicht die klare Trennung der Verantwortlichkeiten zwischen den Modulen:
+The diagram highlights the clear separation of responsibilities between modules:
 
-- **src/plantuml2drawio/core.py** übernimmt die Koordination und generische Funktionalität
-- **src/processors/activity_processor.py** konzentriert sich ausschließlich auf Aktivitätsdiagramme
-- **src/plantuml2drawio/app.py** behandelt nur UI-bezogene Aspekte
+- **src/plantuml2drawio/core.py** manages coordination and generic functionality
+- **src/processors/activity_processor.py** focuses exclusively on activity diagrams
+- **src/plantuml2drawio/app.py** handles only UI-related aspects
 
-Diese Architektur erleichtert die zukünftige Erweiterung um weitere Diagrammtypen. Neue Prozessoren können als separate Module hinzugefügt werden, ohne bestehenden Code zu verändern.
+This architecture simplifies future expansion to additional diagram types. New processors can be added as standalone modules without altering existing code.

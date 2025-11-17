@@ -1,186 +1,186 @@
-# Installation und Benutzung
+# Installation and Usage
 
-Dieses Dokument beschreibt die Installation und Benutzung des PlantUML zu Draw.io Konverters.
+This document describes how to install and use the PlantUML to Draw.io converter.
 
 ## Installation
 
-### Voraussetzungen
+### Prerequisites
 
-- Python 3.6 oder höher
-- pip (Python-Paketmanager)
+- Python 3.6 or higher
+- pip (Python package manager)
 
-### Installation von GitHub
+### Installation from GitHub
 
-1. Klonen Sie das Repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/[username]/plantuml2drawio.git
    cd plantuml2drawio
    ```
 
-2. Installieren Sie die Abhängigkeiten:
+2. Install the dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-### Installation als Python-Paket (optional)
+### Install as a Python package (optional)
 
-Alternativ können Sie das Paket im Entwicklungsmodus installieren:
+Alternatively, install the package in development mode:
 
 ```bash
 pip install -e .
 ```
 
-Sobald das Paket auf PyPI verfügbar ist:
+Once the package is available on PyPI:
 
 ```bash
 pip install plantuml2drawio
 ```
 
-## Benutzung
+## Usage
 
-Der Konverter kann sowohl über die Kommandozeile als auch über die grafische Benutzeroberfläche verwendet werden.
+The converter can be used from the command line or via the graphical user interface.
 
-### Kommandozeile
+### Command Line
 
-#### Grundlegende Verwendung
+#### Basic usage
 
-Mit den Einstiegsskripten:
+Using the entry point scripts:
 ```bash
-./p2d-cli --input <eingabedatei.puml> --output <ausgabedatei.drawio>
+./p2d-cli --input <input_file.puml> --output <output_file.drawio>
 ```
 
-Mit installiertem Paket:
+With the installed package:
 ```bash
-p2d-cli --input <eingabedatei.puml> --output <ausgabedatei.drawio>
+p2d-cli --input <input_file.puml> --output <output_file.drawio>
 ```
 
-Beispiel:
+Example:
 ```bash
 ./p2d-cli --input examples/activity_examples/simple_activity.puml --output output.drawio
 ```
 
-#### Nur Diagrammtyp anzeigen
+#### Show only the diagram type
 
 ```bash
-./p2d-cli --input <eingabedatei.puml> --info
+./p2d-cli --input <input_file.puml> --info
 ```
 
-Beispiel:
+Example:
 ```bash
 ./p2d-cli --input examples/activity_examples/simple_activity.puml --info
 ```
 
-#### Hilfe anzeigen
+#### Show help
 
 ```bash
 ./p2d-cli --help
 ```
 
-### Grafische Benutzeroberfläche
+### Graphical User Interface
 
-Starten Sie die grafische Benutzeroberfläche mit:
+Start the GUI with:
 
-Mit den Einstiegsskripten:
+Using the entry point scripts:
 ```bash
 ./p2d-gui
 ```
 
-Mit installiertem Paket:
+With the installed package:
 ```bash
 p2d-gui
 ```
 
-#### Verwendung der GUI
+#### Using the GUI
 
-1. **PlantUML-Code eingeben**
-   - Geben Sie den PlantUML-Code direkt in das Textfeld ein, oder
-   - Laden Sie eine PlantUML-Datei über "Datei öffnen"
+1. **Enter PlantUML code**
+   - Type PlantUML code directly into the text field, or
+   - Load a PlantUML file via "Open File"
 
-2. **Konvertierung starten**
-   - Klicken Sie auf "Konvertieren"
-   - Der erkannte Diagrammtyp wird angezeigt
-   - Bei Erfolg wird die Draw.io-XML generiert
+2. **Start conversion**
+   - Click "Convert"
+   - The detected diagram type is displayed
+   - On success, the Draw.io XML is generated
 
-3. **Ergebnis speichern**
-   - Klicken Sie auf "Speichern" oder "Speichern unter"
-   - Wählen Sie einen Dateinamen mit der Endung .drawio
+3. **Save the result**
+   - Click "Save" or "Save As"
+   - Choose a filename ending with .drawio
 
-## Unterstützte Diagrammtypen
+## Supported diagram types
 
-Derzeit werden folgende PlantUML-Diagrammtypen unterstützt:
+The following PlantUML diagram types are currently supported:
 
-| Diagrammtyp       | Unterstützung |
-|-------------------|---------------|
-| Aktivitätsdiagramm| ✓ Vollständig |
-| Sequenzdiagramm   | ✗ Geplant     |
-| Klassendiagramm   | ✗ Geplant     |
-| Komponentendiagramm| ✗ Geplant     |
-| Zustandsdiagramm  | ✗ Geplant     |
-| ER-Diagramm       | ✗ Geplant     |
+| Diagram type        | Support level |
+|---------------------|---------------|
+| Activity diagram    | ✓ Fully supported |
+| Sequence diagram    | ✗ Planned |
+| Class diagram       | ✗ Planned |
+| Component diagram   | ✗ Planned |
+| State diagram       | ✗ Planned |
+| ER diagram          | ✗ Planned |
 
-## Beispiele
+## Examples
 
-### Aktivitätsdiagramm
+### Activity diagram
 
-**PlantUML-Eingabe**:
+**PlantUML input**:
 ```
 @startuml
 start
-:Schritt 1;
-if (Bedingung?) then (ja)
-  :Schritt 2a;
-else (nein)
-  :Schritt 2b;
+:Step 1;
+if (Condition?) then (yes)
+  :Step 2a;
+else (no)
+  :Step 2b;
 endif
-:Schritt 3;
+:Step 3;
 stop
 @enduml
 ```
 
-**Resultat**: Ein in Draw.io importierbares Aktivitätsdiagramm mit entsprechenden Elementen.
+**Result**: A Draw.io-compatible activity diagram with the corresponding elements.
 
-## Fehlerbehandlung
+## Error handling
 
-### Häufige Fehler
+### Common errors
 
-1. **Ungültiger PlantUML-Code**:
-   - Fehlermeldung: "Ungültiger PlantUML-Code"
-   - Lösung: Überprüfen Sie die Syntax und stellen Sie sicher, dass der Code mit @startuml beginnt und mit @enduml endet.
+1. **Invalid PlantUML code**:
+   - Error message: "Invalid PlantUML code"
+   - Solution: Check the syntax and ensure the code starts with @startuml and ends with @enduml.
 
-2. **Nicht unterstützter Diagrammtyp**:
-   - Fehlermeldung: "Nicht unterstützter Diagrammtyp"
-   - Lösung: Verwenden Sie einen der unterstützten Diagrammtypen oder warten Sie auf eine zukünftige Version.
+2. **Unsupported diagram type**:
+   - Error message: "Unsupported diagram type"
+   - Solution: Use one of the supported diagram types or wait for a future version.
 
-3. **Datei nicht gefunden**:
-   - Fehlermeldung: "Datei nicht gefunden"
-   - Lösung: Überprüfen Sie den Pfad zur Eingabedatei.
+3. **File not found**:
+   - Error message: "File not found"
+   - Solution: Verify the path to the input file.
 
 ### Logs
 
-Bei Problemen können Sie detailliertere Logs aktivieren:
+For troubleshooting, enable detailed logs:
 
 ```bash
-./p2d-cli --input <eingabedatei.puml> --output <ausgabedatei.drawio> --debug
+./p2d-cli --input <input_file.puml> --output <output_file.drawio> --debug
 ```
 
-## Tipps und Tricks
+## Tips and tricks
 
-1. **Komplexe Aktivitätsdiagramme**:
-   - Teilen Sie komplexe Diagramme in kleinere Teile auf
-   - Verwenden Sie eindeutige Bezeichner für Aktivitäten und Entscheidungen
+1. **Complex activity diagrams**:
+   - Split complex diagrams into smaller parts
+   - Use clear identifiers for activities and decisions
 
-2. **Kompatibilität mit Draw.io**:
-   - Die erzeugten .drawio-Dateien können in allen Draw.io-kompatiblen Tools geöffnet werden
-   - Dies schließt die Online-Version, Desktop-Anwendung und die VSCode-Erweiterung ein
+2. **Compatibility with Draw.io**:
+   - Generated .drawio files can be opened in all Draw.io-compatible tools
+   - This includes the online version, desktop application, and the VS Code extension
 
-3. **Integration in Workflows**:
-   - Sie können die Konvertierung in CI/CD-Pipelines integrieren
-   - Beispiel für ein Git-Hook-Skript zur automatischen Konvertierung beim Commit
+3. **Workflow integration**:
+   - Integrate the conversion into CI/CD pipelines
+   - Example: a Git hook script to automatically convert on commit
 
 ## Support
 
-Bei Fragen oder Problemen:
+If you have questions or issues:
 
-1. Prüfen Sie die FAQ im [Wiki](https://github.com/[username]/plantuml2drawio/wiki)
-2. Eröffnen Sie ein [GitHub Issue](https://github.com/[username]/plantuml2drawio/issues)
-3. Kontaktieren Sie den Entwickler: [email@example.com]
+1. Check the FAQ in the [Wiki](https://github.com/[username]/plantuml2drawio/wiki)
+2. Open a [GitHub Issue](https://github.com/[username]/plantuml2drawio/issues)
+3. Contact the developer: [email@example.com]

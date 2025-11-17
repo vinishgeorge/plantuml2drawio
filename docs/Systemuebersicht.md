@@ -1,53 +1,53 @@
-# Systemübersicht
+# System Overview
 
-## Zweck und Funktionalität
+## Purpose and functionality
 
-Der PlantUML zu Draw.io Konverter ermöglicht die Umwandlung von PlantUML-Diagrammen in das Format von Draw.io. Dies ist besonders nützlich, wenn Benutzer ihre Diagramme in einer textbasierten Umgebung mit PlantUML erstellen, aber später in Draw.io weiterbearbeiten möchten, um von den visuellen Bearbeitungsmöglichkeiten zu profitieren.
+The PlantUML to Draw.io converter transforms PlantUML diagrams into the Draw.io format. This is particularly useful when users create diagrams in a text-based environment with PlantUML but later want to refine them in Draw.io to benefit from visual editing features.
 
-## Architektur
+## Architecture
 
-Die Anwendung ist modular aufgebaut und folgt dem Prinzip der Trennung von Verantwortlichkeiten. Die wichtigsten Komponenten sind:
+The application is modular and follows separation of concerns. The key components are:
 
-1. **Kernmodul (core.py)**:
-   - Hauptmodul, das die Diagrammtyperkennung und die Orchestrierung des Konvertierungsprozesses übernimmt
-   - Bietet eine Kommandozeilenschnittstelle zur direkten Verwendung
-   - Implementiert die Logik zur Erkennung verschiedener PlantUML-Diagrammtypen
+1. **Core module (core.py)**:
+   - Main module that handles diagram type detection and orchestrates the conversion process
+   - Provides a command-line interface for direct use
+   - Implements the logic to detect different PlantUML diagram types
 
-2. **Aktivitätsdiagramm-Modul (modules/activity_processor.py)**:
-   - Spezialisiertes Modul für die Verarbeitung von PlantUML-Aktivitätsdiagrammen
-   - Enthält Funktionen zur Validierung, Parsing, Layout und Konvertierung von Aktivitätsdiagrammen
-   - Separiert, um die Erweiterbarkeit für andere Diagrammtypen zu gewährleisten
+2. **Activity diagram module (modules/activity_processor.py)**:
+   - Specialized module for processing PlantUML activity diagrams
+   - Contains functions for validation, parsing, layout, and conversion of activity diagrams
+   - Kept separate to enable extension to other diagram types
 
-3. **Benutzeroberfläche (app.py)**:
-   - Graphische Benutzeroberfläche (GUI) für den Konverter
-   - Ermöglicht das Laden, Bearbeiten und Konvertieren von PlantUML-Diagrammen
-   - Bietet Syntax-Highlighting für PlantUML-Code
+3. **User interface (app.py)**:
+   - Graphical user interface (GUI) for the converter
+   - Allows loading, editing, and converting PlantUML diagrams
+   - Provides syntax highlighting for PlantUML code
 
-## Arbeitsweise
+## Operation
 
-Der Konvertierungsprozess durchläuft folgende Schritte:
+The conversion process goes through the following steps:
 
-1. **Diagrammtyperkennung**: Die Eingangs-PlantUML-Datei wird analysiert, um den Diagrammtyp zu bestimmen.
-2. **Validierung**: Es wird überprüft, ob das Diagramm gültig ist und dem unterstützten Format entspricht.
-3. **Parsing**: Das PlantUML-Diagramm wird in eine interne Repräsentation aus Knoten und Kanten umgewandelt.
-4. **Layout-Berechnung**: Die Positionen und Größen der Knoten werden optimiert, um ein ästhetisches Diagramm zu erzeugen.
-5. **XML/JSON-Generierung**: Die interne Repräsentation wird in das Draw.io-XML-Format oder optional in JSON konvertiert.
-6. **Ausgabe**: Das Ergebnis wird in eine Datei geschrieben oder in der GUI angezeigt.
+1. **Diagram type detection**: Analyze the input PlantUML file to determine the diagram type.
+2. **Validation**: Check whether the diagram is valid and matches the supported format.
+3. **Parsing**: Convert the PlantUML diagram into an internal representation of nodes and edges.
+4. **Layout calculation**: Optimize positions and sizes of nodes to produce a clear diagram.
+5. **XML/JSON generation**: Convert the internal representation into the Draw.io XML format or optionally JSON.
+6. **Output**: Write the result to a file or display it in the GUI.
 
-## Schnittstellen
+## Interfaces
 
-- **Kommandozeilenschnittstelle (CLI)**: Ermöglicht die Steuerung und Automatisierung des Konvertierungsprozesses.
-- **Grafische Benutzeroberfläche (GUI)**: Bietet eine benutzerfreundliche Oberfläche für den interaktiven Einsatz.
-- **Modulare Programmierschnittstelle (API)**: Ermöglicht die Einbindung der Konvertierungsfunktionen in andere Anwendungen.
+- **Command-line interface (CLI)**: Enables control and automation of the conversion process.
+- **Graphical user interface (GUI)**: Provides a user-friendly interface for interactive use.
+- **Modular API**: Allows embedding conversion functions into other applications.
 
-## Zukunft und Erweiterbarkeit
+## Future and extensibility
 
-Das System wurde mit Blick auf Erweiterbarkeit entworfen. Aktuell werden Aktivitätsdiagramme unterstützt, aber die modulare Struktur erleichtert die Implementierung weiterer PlantUML-Diagrammtypen wie:
+The system was designed with extensibility in mind. It currently supports activity diagrams, but the modular structure simplifies adding more PlantUML diagram types such as:
 
-- Sequenzdiagramme
-- Klassendiagramme
-- Komponentendiagramme
-- Zustandsdiagramme
-- ER-Diagramme
+- Sequence diagrams
+- Class diagrams
+- Component diagrams
+- State diagrams
+- ER diagrams
 
-Jeder neue Diagrammtyp kann als separates Modul implementiert werden, ohne den bestehenden Code zu beeinträchtigen.
+Each new diagram type can be implemented as a separate module without affecting existing code.
